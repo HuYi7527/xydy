@@ -251,7 +251,7 @@ body.theme5{background:linear-gradient(135deg,#fcf0ff,#f5d4ff);}
     <div class="main-time" id="mainTime">北京时间：2025-12-17 15:30:00</div>
     <div class="head-box"><h1 id="headTitle">祝爸爸<br>生日快乐</h1></div>
     <button class="birthday-surprise-btn" onclick="openSurpriseModal()">点击开启生日惊喜</button>
-    <div class="birth-box" id="birthBox">🌹生辰：1972年02月20日</div>
+    <div class="birth-box" id="birthBox">🌹生辰：1972年02月20日(农历)</div>
     <div class="wish-box">
         <div class="wish-cn" id="wishTxt">愿您岁岁平安，身体康健，笑口常开，幸福美满。</div>
         <div class="wish-en" id="wishEn">May you have peace, health, joy and happiness every year.</div>
@@ -417,7 +417,7 @@ function enterMainPage(){
         const y=d.getFullYear();
         const m=String(d.getMonth()+1).padStart(2,'0');
         const day=String(d.getDate()).padStart(2,'0');
-        document.getElementById('birthBox').innerText=`🌹生辰：${y}年${m}月${day}日`;
+        document.getElementById('birthBox').innerText=`🌹生辰：${y}年${m}月${day}日（农历）`;
         userAge=new Date().getFullYear()-y;
     }
     document.getElementById('headTitle').innerHTML=isDad?'祝爸爸<br>生日快乐':`祝您<br>生日快乐`;
