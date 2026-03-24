@@ -1,1300 +1,509 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="2026马年新春专属祝福页面">
-    <meta name="author" content="胡燚">
-    <meta name="keywords" content="2026马年,新春祝福,专属祝福,马年大吉">
-    <title>胡*2026年马年新春祝福</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Ma Shan Zheng", "STXingkai", "SimHei", "Microsoft YaHei", sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>祝您生日快乐</title>
+<style>
+* {margin:0;padding:0;box-sizing:border-box;font-family:"PingFang SC","Microsoft YaHei",sans-serif;-webkit-tap-highlight-color:transparent;}
+html,body{width:100%;min-height:100vh;background:linear-gradient(135deg,#fff9f9,#ffe6ea);overflow-x:hidden;position:relative;padding-bottom:110px;padding-top:20px;}
+body.hide-splash #splash{display:none;}
 
-        /* 通用页面样式 */
-        .page {
-            min-height: 100vh;
-            position: relative;
-            overflow: hidden;
-            padding-bottom: 120px;
-            background-size: cover;
-            background-position: center;
-        }
+/* 顶部生日弹窗 */
+.age-info-modal {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff;
+    color: #ff5a7d;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 22px;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+    z-index: 9997;
+    display: none;
+    white-space: nowrap;
+}
 
-        /* 首页喜庆红色渐变背景 */
-        .input-page {
-            background: linear-gradient(135deg, #ff4d4d 0%, #ff1a1a 50%, #cc0000 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
+/* 红包弹幕 */
+.redpack-barrage{position:fixed;top:0;left:0;width:100%;height:100vh;pointer-events:none;z-index:992;overflow:hidden;display:none;}
+.barrage-item{position:absolute;white-space:nowrap;font-size:16px;font-weight:bold;color:#ff3333;background:#fff;padding:4px 10px;border-radius:12px;border:1px solid #ff3333;animation:barrageMove linear infinite;}
+@keyframes barrageMove{0%{transform:translateX(105vw);}100%{transform:translateX(-120px);}}
 
-        /* 祝福页 - 浅色系喜庆渐变背景+ 烟花底层效果 */
-        .blessing-page {
-            background: linear-gradient(135deg, #fff8e1 0%, #ffebee 50%, #fff3e0 100%);
-            display: none; /* 默认隐藏 */
-            position: relative;
-            padding-bottom: 120px;
-            /* 叠加喜庆纹理 */
-            background-image: radial-gradient(rgba(255, 152, 0, 0.1) 1px, transparent 1px),
-                              radial-gradient(rgba(255, 82, 82, 0.05) 2px, transparent 2px);
-            background-size: 50px 50px, 30px 30px;
-            background-position: 0 0, 15px 15px;
-        }
+/* 大红包弹窗 */
+.redpack-modal{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.6);display:none;justify-content:center;align-items:center;z-index:9999;}
+.redpack-box{width:280px;height:380px;background:#ff4444;border-radius:20px;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;box-shadow:0 0 30px rgba(255,68,68,0.5);}
+.redpack-title{font-size:18px;color:#fff;font-weight:bold;text-align:center;margin-bottom:40px;line-height:1.6;}
+.open-btn{width:80px;height:80px;background:#ffcc00;border-radius:50%;display:flex;justify-content:center;align-items:center;font-size:28px;font-weight:bold;color:#ff0000;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,0.2);}
 
-        /* 玫瑰花装饰 - 调整透明度适配浅色背景 */
-        .rose-decoration {
-            position: fixed;
-            bottom: 120px;
-            right: 50px;
-            font-size: 15rem;
-            z-index: 2;
-            opacity: 0.2;
-            transform: scaleX(-1);
-            color: #ff6b6b;
-        }
+/* 玫瑰返回按钮 */
+.rose-back-splash{position:fixed;top:12px;left:12px;width:48px;height:48px;background:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0NCIgZmlsbD0iI2ZmNWE3ZCIvPjxwYXRoIGQ9Ik01MCAyMEMzNSAyMCAyNSAzNSAyNSA1MGMwIDE1IDEwIDMwIDI1IDMwczI1LTE1IDI1LTMwQzc1IDM1IDY1IDIwIDUwIDIweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik01MCAyMGMtMTAgMC0yMCAxMC0yMCAyMHMxMCAyMCAyMCAyMHYtMTBjLTUgMC0xMC01LTEwLTEwczUtMTAgMTAtMTBoMTB6IiBmaWxsPSIjZmZmIi8+PC9zdmc+") no-repeat center;background-size:contain;border-radius:50%;cursor:pointer;z-index:999;}
 
-        /* 新年愿望走马灯容器 */
-        .wishes-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 3;
-            pointer-events: none;
-            overflow: hidden;
-        }
+/* 主题下拉 */
+.theme-select-box{position:fixed;top:14px;right:12px;z-index:998;}
+.theme-select{padding:6px 10px;border:1px solid #eee;border-radius:8px;background:#fff;font-size:13px;outline:none;}
 
-        .wish-item {
-            position: absolute;
-            color: #ff5722;
-            font-size: 2rem;
-            font-weight: bold;
-            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
-            white-space: nowrap;
-            opacity: 0.8;
-            transition: opacity 0.5s ease;
-        }
+/* 音乐按钮 */
+.music-toggle{position:fixed;top:70px;left:12px;width:36px;height:36px;border-radius:50%;background:#ff5a7d;color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;z-index:998;}
 
-        /* 弹窗通用样式 - 仅保留愿望弹窗 */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 1002;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+body.theme1{background:linear-gradient(135deg,#fff9f9,#ffe6ea);}
+body.theme2{background:linear-gradient(135deg,#f0f7ff,#c6dfff);}
+body.theme3{background:linear-gradient(135deg,#f0fff4,#c1f7d1);}
+body.theme4{background:linear-gradient(135deg,#fffbf0,#ffe9b3);}
+body.theme5{background:linear-gradient(135deg,#fcf0ff,#f5d4ff);}
 
-        .modal-content {
-            background: #fff;
-            padding: 40px;
-            border-radius: 20px;
-            border: 3px solid #ff7f00;
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-            box-shadow: 0 0 50px rgba(255, 127, 0, 0.5);
-        }
+.toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.75);color:#fff;padding:10px 20px;border-radius:24px;font-size:14px;z-index:9999;display:none;white-space:nowrap;}
+.bottom-tip{position:fixed;bottom:70px;left:0;width:100%;text-align:center;font-size:14px;color:#555;padding:6px 0;z-index:996;display:none;}
+.wish-tip{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:18px;color:#ff5a7d;font-weight:bold;z-index:997;display:none;}
 
-        .modal-title {
-            font-size: 2.5rem;
-            color: #ff7f00;
-            margin-bottom: 30px;
-            letter-spacing: 3px;
-        }
+/* 团队详情弹窗 */
+.team-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:10002;align-items:center;justify-content:center;}
+.modal-content{background:#fff;width:85%;max-width:340px;padding:28px;border-radius:18px;text-align:center;}
+.modal-content h3{color:#ff5a7d;margin-bottom:16px;font-size:20px;}
+.modal-content p{color:#333;font-size:15px;line-height:1.7;text-align:left;margin-bottom:10px;}
+.modal-close{margin-top:20px;padding:9px 24px;background:#ff5a7d;color:#fff;border:none;border-radius:22px;cursor:pointer;}
 
-        .modal-input {
-            width: 100%;
-            padding: 20px;
-            font-size: 1.5rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 15px;
-            text-align: center;
-            margin-bottom: 30px;
-            resize: none;
-            height: 120px;
-            font-family: inherit;
-        }
+/* 惊喜弹窗 */
+.surprise-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9998;align-items:center;justify-content:center;}
+.surprise-box{background:#fff;width:80%;max-width:300px;padding:25px;border-radius:18px;text-align:center;}
+.surprise-box h3{color:#ff5a7d;margin-bottom:20px;}
+.surprise-option{width:100%;padding:10px 0;margin:8px 0;background:#ff5a7d;color:#fff;border:none;border-radius:25px;font-size:15px;cursor:pointer;}
+.surprise-option.close-btn{background:#90EE90;color:#FFD700;}
 
-        .modal-input:focus {
-            outline: none;
-            border-color: #ff7f00;
-            box-shadow: 0 0 15px rgba(255, 127, 0, 0.3);
-        }
+/* 开始界面 */
+#splash{position:fixed;width:100%;height:100vh;background:linear-gradient(135deg,#ff5a7d,#ff88aa);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;color:#fff;gap:16px;padding:0 20px;}
+.splash-title{font-size:32px;font-weight:bold;letter-spacing:2px;}
+.splash-full-name{font-size:17px;opacity:0.95;margin-bottom:40px;}
+.splash-team-desc{font-size:15px;opacity:0.9;margin:10px 0 20px 0;text-align:center;}
+.splash-time-center{font-size:16px;opacity:0.92;margin-bottom:24px;}
+.splash-input{width:260px;padding:12px 18px;border-radius:30px;border:none;outline:none;font-size:15px;text-align:center;background:rgba(255,255,255,0.92);color:#333;}
+.splash-btn{padding:12px 36px;border-radius:30px;border:none;background:#fff;color:#ff5a7d;font-size:16px;font-weight:bold;cursor:pointer;margin-top:8px;}
+.splash-footer{position:absolute;bottom:30px;font-size:12px;color:rgba(255,255,255,0.8);text-align:center;}
 
-        .modal-buttons {
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-        }
+/* 主页 */
+.container{width:100%;padding:80px 20px 20px;display:flex;flex-direction:column;gap:24px;align-items:center;}
+.main-full-name{font-size:20px;color:#ff5a7d;font-weight:bold;margin-bottom:8px;}
+.main-time{font-size:16px;color:#666;margin-bottom:10px;}
+.birthday-surprise-btn{padding:14px 32px;background:linear-gradient(90deg,#ff5a7d,#ff88aa);color:#fff;border:none;border-radius:30px;font-size:16px;font-weight:bold;cursor:pointer;}
+.head-box{background:linear-gradient(90deg,#ff5a7d,#ff88aa);color:#fff;padding:28px 20px;border-radius:16px;text-align:center;width:100%;}
+.head-box h1{font-size:28px;line-height:1.4;}
+.birth-box{background:rgba(255,255,255,0.95);padding:18px;border-radius:14px;text-align:center;font-size:17px;color:#d03040;font-weight:bold;width:100%;}
+.wish-box{background:rgba(255,255,255,0.95);padding:24px;border-radius:16px;text-align:center;width:100%;}
+.wish-cn{font-size:18px;line-height:1.8;color:#333;margin-bottom:10px;}
+.wish-en{font-size:14px;color:#666;}
 
-        .modal-btn {
-            padding: 15px 40px;
-            border: none;
-            border-radius: 15px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            flex: 1;
-            letter-spacing: 2px;
-        }
+/* 蛋糕蜡烛 */
+.cake-box{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);transition:0.5s;z-index:994;opacity:0;width:240px;text-align:center;}
+.cake-box.show{transform:translate(-50%,-50%) scale(1);opacity:1;}
+.cake-body{width:200px;height:70px;background:#fff;border-radius:12px;margin:0 auto;}
+.cake-candle-group{display:flex;justify-content:center;gap:22px;margin-top:-35px;}
+.candle-stick{width:10px;height:45px;background:linear-gradient(to top,#ffd700,#ffed4e);border-radius:4px;position:relative;}
+.candle-flame{width:7px;height:14px;background:linear-gradient(to top,#ff9d00,#ffd700);border-radius:50%;position:absolute;top:-12px;left:1.5px;animation:flame 0.8s infinite alternate;display:none;}
+.candle-flame.show{display:block;}
+@keyframes flame{0%{transform:scale(1);opacity:0.9;}100%{transform:scale(1.18);opacity:1;}}
 
-        .submit-modal-btn {
-            background: linear-gradient(135deg, #ff7f00 0%, #ff4500 100%);
-            color: #fff;
-        }
+#fireworksCanvas{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:995;pointer-events:none;display:none;}
 
-        .cancel-modal-btn {
-            background: #ccc;
-            color: #333;
-        }
+/* 底部导航栏 */
+.bottom-nav{position:fixed;bottom:0;left:0;width:100%;height:50px;background:#fff;box-shadow:0 -2px 10px rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;z-index:990;}
+.nav-wish-btn{background:#ff5a7d;color:#fff;border:none;border-radius:25px;padding:8px 24px;font-size:15px;font-weight:bold;cursor:pointer;}
 
-        /* 记住姓名单选框样式 */
-        .remember-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 30px;
-            gap: 15px;
-        }
+/* 心愿输入弹窗 */
+.wish-input-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;justify-content:center;align-items:center;z-index:10000;}
+.wish-input-box{background:#fff;width:85%;max-width:320px;padding:24px;border-radius:18px;text-align:center;}
+.wish-input-box h3{color:#ff5a7d;margin-bottom:16px;}
+.wish-input{width:100%;height:80px;padding:10px;border:1px solid #eee;border-radius:10px;resize:none;font-size:15px;margin-bottom:16px;outline:none;}
+.wish-submit{background:#ff5a7d;color:#fff;border:none;border-radius:20px;padding:8px 20px;font-size:15px;cursor:pointer;}
+.wish-close{background:#90EE90;color:#FFD700;border:none;border-radius:20px;padding:8px 20px;font-size:15px;cursor:pointer;margin-left:8px;}
 
-        .remember-checkbox {
-            width: 25px;
-            height: 25px;
-            cursor: pointer;
-        }
+/* 心愿蛋糕展示 */
+.wish-cake-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.92);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:10001;padding:20px;}
+.cake-icon{font-size:100px;margin-bottom:20px;}
+.wish-card{background:#fff;padding:20px 26px;border-radius:16px;box-shadow:0 4px 15px rgba(0,0,0,0.1);max-width:320px;text-align:center;}
+.wish-text{font-size:17px;color:#333;line-height:1.6;}
+.wish-card-close{margin-top:20px;background:#ff5a7d;color:#fff;border:none;border-radius:20px;padding:8px 22px;font-size:15px;cursor:pointer;}
 
-        .remember-label {
-            font-size: 1.5rem;
-            color: #cc0000;
-            cursor: pointer;
-        }
+/* 底部版权（专业分行版） */
+.footer{position:fixed;bottom:50px;left:0;width:100%;background:#fff;text-align:center;padding:10px 0;font-size:12px;color:#666;border-top:1px solid #f2f2f2;z-index:989;line-height:1.8;}
+.footer a{color:#ff5a7d;text-decoration:none;margin:0 6px;font-weight:500;cursor:pointer;}
 
-        /* 通用底部信息栏 - 恢复意见反馈悬浮链接 */
-        .footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: linear-gradient(90deg, #ff9800 0%, #ff5722 50%, #ff9800 100%);
-            color: #fff;
-            padding: 15px 0;
-            z-index: 100;
-            border-top: 2px solid #ffd700;
-            font-size: 1rem;
-            line-height: 1.6;
-            height: 100px;
-        }
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100%;
-            justify-content: center;
-        }
-        .footer-row {
-            width: 100%;
-            text-align: center;
-            margin: 2px 0;
-        }
-        .footer-author {
-            color: #ffd700;
-            font-weight: bold;
-        }
-        .footer-link {
-            color: #fff;
-            text-decoration: none;
-            transition: color 0.3s;
-            position: relative;
-            cursor: pointer;
-        }
-        .footer-link:hover {
-            color: #ffd700;
-        }
-        /* 悬浮提示框样式 - 优化手机适配，确保悬浮显示 */
-        .footer-link .tooltip {
-            position: absolute;
-            bottom: 120%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #fff;
-            color: #ff5722;
-            padding: 10px 15px;
-            border-radius: 5px;
-            font-size: 0.85rem;
-            z-index: 101;
-            display: none;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            border: 1px solid #ff9800;
-            width: 280px;
-            white-space: normal;
-            line-height: 1.5;
-        }
-        .footer-link .tooltip::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 5px;
-            border-style: solid;
-            border-color: #fff transparent transparent transparent;
-        }
-        /* 鼠标悬浮时显示提示框 */
-        .footer-link:hover .tooltip {
-            display: block;
-        }
-        .footer-copyright {
-            color: #fff3e0;
-            font-size: 0.85rem;
-        }
-        .footer-separator {
-            color: #fff3e0;
-            margin: 0 8px;
-        }
+/* 右下角客服链接 */
+.service-link{position:fixed;right:12px;bottom:60px;color:#ff5a7d;font-size:13px;text-decoration:underline;cursor:pointer;z-index:991;}
 
-        /* 主标题 - 标准红色字体，优化移动端尺寸 */
-        .main-title {
-            font-size: 3rem;
-            text-align: center;
-            margin-bottom: 60px;
-            letter-spacing: 6px;
-            z-index: 10;
-            font-weight: bold;
-            line-height: 1.3;
-            color: #ff0000;
-            width: 100%;
-            padding: 0 20px;
-        }
-        .main-title-line1 {
-            display: block;
-        }
-        .main-title-line2 {
-            display: block;
-            font-size: 2.2rem;
-            margin-top: 10px;
-        }
-
-        /* 装饰元素 - 喜庆风格 */
-        .decor-element {
-            position: absolute;
-            font-size: 5rem;
-            color: rgba(255, 215, 0, 0.3);
-            z-index: 1;
-        }
-        .decor-1 { top: 50px; left: 50px; }
-        .decor-2 { top: 50px; right: 50px; }
-        .decor-3 { bottom: 150px; left: 50px; }
-        .decor-4 { bottom: 150px; right: 50px; }
-
-        /* 姓名输入框容器 - 喜庆玻璃拟态风格 */
-        .input-container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 50px;
-            border-radius: 25px;
-            border: 3px solid #ff7f00;
-            box-shadow: 0 0 50px rgba(255, 127, 0, 0.5);
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-            z-index: 10;
-            position: relative;
-            backdrop-filter: blur(10px);
-        }
-
-        /* 输入提示文字 - 分行显示 + 喜庆红色 */
-        .input-title {
-            font-size: 2.5rem;
-            color: #cc0000;
-            margin-bottom: 40px;
-            letter-spacing: 3px;
-            line-height: 1.5;
-        }
-        .input-title-line1 {
-            display: block;
-        }
-        .input-title-line2 {
-            display: block;
-            font-size: 2.2rem;
-            margin-top: 10px;
-        }
-
-        .name-input {
-            width: 100%;
-            padding: 20px;
-            font-size: 1.8rem;
-            border: 2px solid #ff7f00;
-            border-radius: 15px;
-            text-align: center;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.9);
-        }
-        .name-input:focus {
-            outline: none;
-            border-color: #ff6600;
-            box-shadow: 0 0 20px rgba(255, 102, 0, 0.4);
-        }
-
-        .confirm-btn {
-            background: linear-gradient(135deg, #ff7f00 0%, #ff4500 100%);
-            color: #fff;
-            border: none;
-            padding: 18px 50px;
-            border-radius: 15px;
-            font-size: 1.8rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            letter-spacing: 2px;
-            box-shadow: 0 4px 15px rgba(255, 127, 0, 0.5);
-        }
-        .confirm-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(255, 127, 0, 0.8);
-        }
-        .confirm-btn:active {
-            transform: translateY(0);
-        }
-
-        /* 跳转提示 - 喜庆绿色字 */
-        .jump-tip {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(90deg, #00cc00 0%, #00ff00 50%, #00cc00 100%);
-            color: #fff;
-            padding: 15px 40px;
-            border-radius: 15px;
-            font-size: 1.8rem;
-            z-index: 1000;
-            display: none;
-            letter-spacing: 3px;
-            border: 2px solid #009900;
-            white-space: nowrap;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-        }
-
-        /* 烟花画布 - 层级调整，确保在祝福页背景上层显示 */
-        #fireworksCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        /* 顶部时间栏 - 适配浅色背景的喜庆风格 */
-        .datetime-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(255, 152, 0, 0.7);
-            color: #fff;
-            padding: 15px 20px;
-            z-index: 20;
-            text-align: center;
-            border-bottom: 2px solid #ffd700;
-        }
-
-        .solar-time {
-            font-size: 1.2rem;
-            color: #fff;
-            letter-spacing: 2px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-        }
-
-        /* 小马图标 + 日志面板 - 移除反馈相关功能 */
-        .horse-icon-trigger {
-            position: fixed;
-            top: 25px;
-            left: 25px;
-            font-size: 2.5rem;
-            z-index: 30;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
-        }
-        .horse-icon-trigger:hover {
-            transform: scale(1.1) rotate(10deg);
-            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 1));
-        }
-
-        .log-panel {
-            position: fixed;
-            top: 80px;
-            left: 25px;
-            width: 320px;
-            max-height: 400px;
-            background: #fff;
-            border: 3px solid #ff7f00;
-            border-radius: 15px;
-            box-shadow: 0 0 30px rgba(255, 127, 0, 0.5);
-            z-index: 25;
-            display: none;
-            overflow: hidden;
-        }
-
-        .log-header {
-            background: linear-gradient(135deg, #ff7f00 0%, #ff4500 100%);
-            color: #fff;
-            padding: 15px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 1.3rem;
-            letter-spacing: 2px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .clear-log-btn {
-            background: rgba(255, 255, 255, 0.3);
-            border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            font-size: 1rem;
-            color: #fff;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-        .clear-log-btn:hover {
-            background: rgba(255, 255, 255, 0.5);
-        }
-
-        .log-content {
-            padding: 20px;
-            max-height: 330px;
-            overflow-y: auto;
-            font-size: 1.1rem;
-        }
-
-        .log-item {
-            padding: 10px 0;
-            border-bottom: 1px dashed #ffcccc;
-        }
-        .log-item:last-child {
-            border-bottom: none;
-        }
-
-        /* 密码弹窗样式 - 保留日志清空功能 */
-        .password-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 152, 0, 0.8);
-            z-index: 1001;
-            display: none;
-            justify-content: center;
-            align-items: center;
-        }
-        .password-modal-content {
-            background: #fff;
-            padding: 30px;
-            border-radius: 15px;
-            border: 3px solid #ff7f00;
-            width: 90%;
-            max-width: 300px;
-            text-align: center;
-            box-shadow: 0 0 50px rgba(255, 127, 0, 0.5);
-        }
-        .password-modal-title {
-            font-size: 1.5rem;
-            color: #ff7f00;
-            margin-bottom: 20px;
-        }
-        .password-input {
-            width: 100%;
-            padding: 10px;
-            font-size: 1.2rem;
-            border: 2px solid #ff7f00;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .password-input:focus {
-            outline: none;
-            border-color: #ff6600;
-            box-shadow: 0 0 15px rgba(255, 102, 0, 0.3);
-        }
-        .password-buttons {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-        }
-        .password-btn {
-            padding: 8px 20px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            cursor: pointer;
-            flex: 1;
-        }
-        .confirm-password-btn {
-            background: #ff7f00;
-            color: #fff;
-        }
-        .cancel-password-btn {
-            background: #ffcccc;
-            color: #cc0000;
-        }
-
-        /* 祝福内容 - 页面中心位置显示，适配浅色背景 */
-        .blessing-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: calc(100vh - 220px);
-            padding: 80px 20px 20px;
-            z-index: 5;
-            position: relative;
-        }
-
-        /* 中心祝福标题 - 适配浅色背景的喜庆颜色 */
-        .central-title {
-            font-size: 2.5rem;
-            color: #e64a19;
-            text-align: center;
-            letter-spacing: 6px;
-            line-height: 1.4;
-            margin-bottom: 20px;
-            width: 100%;
-            padding: 0 15px;
-            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
-        }
-
-        /* 四字祝福语 - 加快切换动画 + 适配浅色背景的喜庆颜色 */
-        .blessing-4word {
-            font-size: 5rem;
-            font-weight: bold;
-            letter-spacing: 15px;
-            margin: 20px 0;
-            color: #d84315;
-            transition: opacity 0.2s ease;
-            padding: 0 10px;
-            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.9);
-        }
-
-        /* 功能按钮 - 喜庆样式 */
-        .back-btn {
-            position: fixed;
-            top: 25px;
-            right: 25px;
-            background: linear-gradient(135deg, #ff7f00 0%, #ff4500 100%);
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            z-index: 30;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            border: 2px solid #fff;
-            box-shadow: 0 0 15px rgba(255, 127, 0, 0.5);
-        }
-        .back-btn:hover {
-            transform: scale(1.1);
-            background: linear-gradient(135deg, #ff6600 0%, #ff3300 100%);
-            box-shadow: 0 0 20px rgba(255, 127, 0, 0.8);
-        }
-
-        /* 新年愿望按钮 - 替换保存按钮 + 喜庆样式 */
-        .wish-btn-trigger {
-            background: linear-gradient(135deg, #ff7f00 0%, #ff4500 100%);
-            color: #fff;
-            border: none;
-            border-radius: 30px;
-            padding: 15px 30px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-            border: 2px solid #fff;
-            margin-top: 30px;
-            box-shadow: 0 4px 15px rgba(255, 127, 0, 0.5);
-        }
-        .wish-btn-trigger:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(255, 127, 0, 0.8);
-        }
-
-        /* 截图画布（隐藏） */
-        #screenshotCanvas {
-            display: none;
-        }
-
-        /* 响应式适配 - 重点优化移动端 */
-        @media (max-width: 768px) {
-            .main-title {
-                font-size: 2.2rem;
-                margin-bottom: 40px;
-                letter-spacing: 4px;
-            }
-            .main-title-line2 {
-                font-size: 1.8rem;
-            }
-            .central-title {
-                font-size: 2rem;
-                letter-spacing: 4px;
-            }
-            .blessing-4word {
-                font-size: 4rem;
-                letter-spacing: 10px;
-            }
-            .input-container {
-                padding: 40px 30px;
-            }
-            .footer-row {
-                font-size: 0.9rem;
-            }
-            .wish-btn-trigger {
-                font-size: 1.2rem;
-                padding: 12px 25px;
-            }
-            .footer-link .tooltip {
-                width: 250px;
-                font-size: 0.8rem;
-                padding: 8px 12px;
-            }
-            .rose-decoration {
-                font-size: 10rem;
-                right: 20px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .main-title {
-                font-size: 1.8rem;
-                margin-bottom: 30px;
-                letter-spacing: 2px;
-                line-height: 1.4;
-            }
-            .main-title-line2 {
-                font-size: 1.5rem;
-            }
-            .central-title {
-                font-size: 1.6rem;
-                letter-spacing: 2px;
-            }
-            .blessing-4word {
-                font-size: 3rem;
-                letter-spacing: 8px;
-            }
-            .input-container {
-                padding: 30px 20px;
-                width: 90%;
-            }
-            .name-input {
-                font-size: 1.5rem;
-                padding: 15px;
-            }
-            .confirm-btn {
-                font-size: 1.5rem;
-                padding: 15px 40px;
-            }
-            .jump-tip {
-                font-size: 1.5rem;
-                padding: 12px 30px;
-            }
-            .horse-icon-trigger, .back-btn {
-                font-size: 2rem;
-                width: 50px;
-                height: 50px;
-            }
-            .log-panel {
-                width: 280px;
-                top: 70px;
-                left: 20px;
-            }
-            .footer-row {
-                font-size: 0.8rem;
-            }
-            .footer-separator {
-                margin: 0 5px;
-            }
-            .datetime-bar {
-                padding: 10px 20px;
-            }
-            .solar-time {
-                font-size: 1rem;
-            }
-            .wish-btn-trigger {
-                font-size: 1rem;
-                padding: 10px 20px;
-            }
-            .footer-link .tooltip {
-                width: 220px;
-                font-size: 0.75rem;
-                padding: 6px 10px;
-            }
-            .rose-decoration {
-                font-size: 8rem;
-                right: 10px;
-                bottom: 150px;
-            }
-            /* 手机端优化单选框和标签 */
-            .remember-checkbox {
-                width: 20px;
-                height: 20px;
-            }
-            .remember-label {
-                font-size: 1.2rem;
-            }
-        }
-    </style>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+/* AI智能聊天框 */
+.chat-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:10003;align-items:center;justify-content:center;}
+.chat-box{background:#fff;width:90%;max-width:330px;height:460px;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;}
+.chat-header{background:#ff5a7d;color:#fff;padding:12px;text-align:center;font-weight:bold;font-size:16px;}
+.chat-body{flex:1;padding:12px;overflow-y:auto;background:#f9f9f9;}
+.chat-message{margin-bottom:10px;max-width:80%;padding:8px 12px;border-radius:14px;font-size:14px;line-height:1.4;}
+.chat-bot{background:#fff;color:#333;align-self:flex-start;box-shadow:0 1px 3px rgba(0,0,0,0.1);}
+.chat-user{background:#ff5a7d;color:#fff;align-self:flex-end;margin-left:auto;}
+.chat-input-area{display:flex;padding:8px;border-top:1px solid #eee;}
+.chat-input{flex:1;border:1px solid #eee;border-radius:20px;padding:0 12px;outline:none;font-size:14px;}
+.chat-send{background:#ff5a7d;color:#fff;border:none;border-radius:20px;padding:0 14px;margin-left:6px;cursor:pointer;}
+.chat-close{position:absolute;top:10px;right:12px;color:#fff;background:#ff5a7d;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;}
+</style>
 </head>
-<body>
-    <!-- 输入页 -->
-    <div class="page input-page" id="inputPage">
-        <!-- 装饰元素 - 喜庆风格 -->
-        <div class="decor-element decor-1">🐎</div>
-        <div class="decor-element decor-2">🏮</div>
-        <div class="decor-element decor-3">🧧</div>
-        <div class="decor-element decor-4">🌸</div>
+<body class="theme1">
 
-        <h1 class="main-title">
-            <span class="main-title-line1">2026年丙午马年</span>
-            <span class="main-title-line2">新春祝福</span>
-        </h1>
-        <div class="input-container">
-            <h2 class="input-title">
-                <span class="input-title-line1">请输入</span>
-                <span class="input-title-line2">您的姓名</span>
-            </h2>
-            <input type="text" class="name-input" id="nameInput" placeholder="请输入您的姓名">
-            <div class="remember-container">
-                <input type="checkbox" class="remember-checkbox" id="rememberCheckbox">
-                <label for="rememberCheckbox" class="remember-label">是否记住您的名字</label>
-            </div>
-            <button class="confirm-btn" id="confirmBtn">确认</button>
+<!-- 顶部年龄弹窗 -->
+<div class="age-info-modal" id="ageInfoModal"></div>
+
+<div class="redpack-barrage" id="barrage"></div>
+<div class="redpack-modal" id="redpackModal">
+    <div class="redpack-box">
+        <div class="redpack-title" id="redpackTitle"></div>
+        <div class="open-btn" onclick="openRedpack()">开</div>
+    </div>
+</div>
+
+<div class="rose-back-splash" onclick="goToSplash()"></div>
+<div class="theme-select-box">
+    <select class="theme-select" id="themeSelect" onchange="changeTheme()">
+        <option value="1">主题一 · 温馨粉</option>
+        <option value="2">主题二 · 天空蓝</option>
+        <option value="3">主题三 · 清新绿</option>
+        <option value="4">主题四 · 温暖黄</option>
+        <option value="5">主题五 · 浪漫紫</option>
+    </select>
+</div>
+<button class="music-toggle" id="musicBtn" onclick="toggleMusic()">🔊</button>
+
+<div class="bottom-tip" id="bottomTip"></div>
+<div class="wish-tip" id="wishTip">请许下您的生日愿望吧</div>
+
+<!-- 团队详情弹窗 -->
+<div class="team-modal" id="teamModal">
+    <div class="modal-content">
+        <h3>网页创作者：胡燚团队</h3>
+        <p>• 专注高端定制化网页开发与前端交互设计</p>
+        <p>• 提供响应式网站建设、UI/UX视觉设计、动态效果开发</p>
+        <p>• 深耕品牌展示、文创礼品、仪式感类项目全流程开发</p>
+        <p>• 以专业技术与审美设计，打造高质量用户体验产品</p>
+        <button class="modal-close" onclick="closeTeamModal()">关闭</button>
+    </div>
+</div>
+
+<!-- 惊喜弹窗 -->
+<div class="surprise-modal" id="surpriseModal">
+    <div class="surprise-box">
+        <h3>选择生日惊喜</h3>
+        <button class="surprise-option" onclick="chooseCandleSequence()">①点亮生日蜡烛</button>
+        <button class="surprise-option" onclick="chooseChangeWish()">②切换祝福语</button>
+        <button class="surprise-option" onclick="showRedpackModal()">③领取红包</button>
+        <button class="surprise-option.close-btn" onclick="closeSurpriseModal()">关闭</button>
+    </div>
+</div>
+
+<!-- 心愿输入弹窗 -->
+<div class="wish-input-modal" id="wishInputModal">
+    <div class="wish-input-box">
+        <h3>许下生辰心愿</h3>
+        <textarea class="wish-input" id="wishInput" placeholder="请输入您的心愿..."></textarea>
+        <div>
+            <button class="wish-submit" onclick="submitWish()">提交心愿</button>
+            <button class="wish-close" onclick="closeWishInput()">取消</button>
         </div>
     </div>
+</div>
 
-    <!-- 跳转提示 -->
-    <div class="jump-tip" id="jumpTip">正在跳转中</div>
+<!-- 心愿蛋糕展示 -->
+<div class="wish-cake-modal" id="wishCakeModal">
+    <div class="cake-icon">🍰</div>
+    <div class="wish-card">
+        <p class="wish-text" id="showWishText"></p>
+    </div>
+    <button class="wish-card-close" onclick="closeWishCake()">关闭</button>
+</div>
 
-    <!-- 祝福页 - 浅色喜庆背景 + 烟花效果 -->
-    <div class="page blessing-page" id="blessingPage">
-        <!-- 玫瑰花装饰 - 浅色背景适配版 -->
-        <div class="rose-decoration">🌹</div>
-
-        <!-- 新年愿望走马灯容器 -->
-        <div class="wishes-container" id="wishesContainer"></div>
-
-        <!-- 顶部时间栏 - 浅色背景适配版 -->
-        <div class="datetime-bar" id="datetimeBar">
-            <div class="solar-time" id="solarTime"></div>
+<!-- AI智能聊天框 -->
+<div class="chat-modal" id="chatModal">
+    <button class="chat-close" onclick="closeChat()">×</button>
+    <div class="chat-box">
+        <div class="chat-header">AI智能客服</div>
+        <div class="chat-body" id="chatBody">
+            <div class="chat-message chat-bot">您好呀😊 我是本站AI智能客服，有任何问题都可以问我哦~</div>
         </div>
-
-        <!-- 功能按钮 -->
-        <div class="horse-icon-trigger" id="horseIconTrigger">🐎</div>
-        <button class="back-btn" id="backBtn">↩</button>
-
-        <!-- 日志面板 - 移除反馈相关 -->
-        <div class="log-panel" id="logPanel">
-            <div class="log-header">
-                访问日志
-                <button class="clear-log-btn" id="clearLogBtn">🗑️</button>
-            </div>
-            <div class="log-content" id="logContent"></div>
-        </div>
-
-        <!-- 密码弹窗样式 - 保留日志清空功能 -->
-        <div class="password-modal" id="passwordModal">
-            <div class="password-modal-content">
-                <h3 class="password-modal-title">管理员验证</h3>
-                <input type="password" class="password-input" id="passwordInput" placeholder="请输入管理员密码">
-                <div class="password-buttons">
-                    <button class="password-btn confirm-password-btn" id="confirmPasswordBtn">确认</button>
-                    <button class="password-btn cancel-password-btn" id="cancelPasswordBtn">取消</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- 新年愿望输入弹窗 - 保留 -->
-        <div class="modal" id="wishModal">
-            <div class="modal-content">
-                <h3 class="modal-title">请输入您的新年愿望</h3>
-                <textarea class="modal-input" id="wishInput" placeholder="请输入您的新年愿望..."></textarea>
-                <div class="modal-buttons">
-                    <button class="modal-btn submit-modal-btn" id="submitWishBtn">提交愿望</button>
-                    <button class="modal-btn cancel-modal-btn" id="cancelWishBtn">取消</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- 祝福内容 - 浅色背景适配版 -->
-        <div class="blessing-container">
-            <div class="central-title" id="centralTitle">祝胡燚 2026年丙午马年</div>
-            <div class="blessing-4word" id="blessing4Word">马到成功</div>
-            <button class="wish-btn-trigger" id="wishBtnTrigger">
-                ✨ 请输入您的新年愿望
-            </button>
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="chatInput" placeholder="请输入消息..." onkeydown="if(event.keyCode===13)sendChat()">
+            <button class="chat-send" onclick="sendChat()">发送</button>
         </div>
     </div>
+</div>
 
-    <!-- 通用底部信息栏 - 恢复意见反馈悬浮链接 -->
-    <div class="footer">
-        <div class="footer-container">
-            <div class="footer-row">
-                原创设计：<span class="footer-author">胡燚</span>
-                <span class="footer-separator">|</span>
-                设计理念：新春专属个性化祝福
-                <span class="footer-separator">|</span>
-                技术支持：HTML5 + CSS3 + JavaScript
-            </div>
-            <div class="footer-row">
-                <span class="footer-link" id="usageLink">
-                    使用说明
-                    <span class="tooltip">1.输入姓名点击确认<br>2.等待跳转至祝福页<br>3.点击小马图标查看日志<br>4.点击愿望按钮输入新年愿望</span>
-                </span>
-                <span class="footer-separator">|</span>
-                <span class="footer-link" id="feedbackLink">
-                    意见反馈
-                    <span class="tooltip">感谢您的使用！如有建议可联系作者，祝您2026马年大吉，万事如意</span>
-                </span>
-                <span class="footer-separator">|</span>
-                <span class="footer-link">
-                    关于作者
-                    <span class="tooltip">HuYi，专注于前端开发与创意设计，热爱传统文化与现代科技结合</span>
-                </span>
-            </div>
-            <div class="footer-row footer-copyright">
-                © 2026 马年新春祝福专题网页 版权所有
-            </div>
-        </div>
+<!-- 开始界面 -->
+<div id="splash">
+    <div class="splash-title">敬恩生辰祝福网站</div>
+    <div class="splash-full-name">（今天是您的生日）</div>
+    <div class="splash-team-desc">——（本网站由胡燚团队精心定制）——</div>
+    <div class="splash-time-center" id="splashTime"></div>
+    <input type="text" class="splash-input" id="userName" value="胡红安" placeholder="请输入姓名">
+    <input type="date" class="splash-input" id="birthDay" value="1972-02-20">
+    <button class="splash-btn" onclick="enterMainPage()">进入祝福主页</button>
+    <div class="splash-footer">版权所有©胡燚 2026 敬恩生辰祝福网站宣传团队 </div>
+</div>
+
+<!-- 主页内容 -->
+<div class="container">
+    <div class="main-full-name">敬恩生辰祝福网站</div>
+    <div class="main-time" id="mainTime">北京时间：2025-12-17 15:30:00</div>
+    <div class="head-box"><h1 id="headTitle">祝爸爸<br>生日快乐</h1></div>
+    <button class="birthday-surprise-btn" onclick="openSurpriseModal()">点击开启生日惊喜</button>
+    <div class="birth-box" id="birthBox">🌹生辰：1972年02月20日</div>
+    <div class="wish-box">
+        <div class="wish-cn" id="wishTxt">愿您岁岁平安，身体康健，笑口常开，幸福美满。</div>
+        <div class="wish-en" id="wishEn">May you have peace, health, joy and happiness every year.</div>
     </div>
+</div>
 
-    <!-- 烟花画布 - 全局显示，祝福页层级优化 -->
-    <canvas id="fireworksCanvas"></canvas>
+<!-- 蛋糕动画 -->
+<div class="cake-box" id="cakeBox">
+    <div class="cake-body"></div>
+    <div class="cake-candle-group">
+        <div class="candle-stick"><div class="candle-flame" id="flame1"></div></div>
+        <div class="candle-stick"><div class="candle-flame" id="flame2"></div></div>
+        <div class="candle-stick"><div class="candle-flame" id="flame3"></div></div>
+    </div>
+</div>
 
-    <!-- 截图画布（隐藏） -->
-    <canvas id="screenshotCanvas"></canvas>
+<canvas id="fireworksCanvas"></canvas>
 
-    <script>
-        'use strict';
+<!-- 底部导航 -->
+<div class="bottom-nav">
+    <button class="nav-wish-btn" onclick="openWishInput()">许下心愿</button>
+</div>
 
-        // 四字祝福语词库
-        const blessings = [
-            "马到成功", "平安顺遂", "万事胜意", "前程似锦", "岁岁平安",
-            "吉祥如意", "阖家幸福", "财源广进", "步步高升", "心想事成",
-            "一帆风顺", "龙马精神", "工作顺利", "喜气洋洋", "大展宏图",
-            "万事如意", "笑口常开", "身体健康", "财源滚滚", "鹏程万里"
-        ];
+<!-- 底部版权（分行专业版） -->
+<div class="footer">
+    版权所有©胡燚 2026 敬恩生辰祝福网站宣传团队<br/>
+    <a onclick="showTeamModal()">网页创作者：胡燚团队</a>
+    <a onclick="showTip('功能正在完善中，请咨询管理员…')">联系方式</a>
+    <a onclick="showTip('未经授权，请勿商用…')">写给用户</a>
+</div>
 
-        // 格式化阳历时间（带秒）
-        function formatSolarTime(date) {
-            return date.toLocaleString('zh-CN', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                weekday: 'long'
-            }).replace(/\//g, '年').replace(/\-/g, '年').replace(/\s+/, ' ').replace(/:/g, '时').replace(/时$/, '分') + '秒';
-        }
+<!-- 右下角客服 -->
+<div class="service-link" onclick="openChat()">AI客服</div>
 
-        // 日志功能 - 移除反馈相关
-        let logVisible = false;
-        const horseIcon = document.getElementById('horseIconTrigger');
-        const logPanel = document.getElementById('logPanel');
-        const logContent = document.getElementById('logContent');
-        const clearLogBtn = document.getElementById('clearLogBtn');
-        const passwordModal = document.getElementById('passwordModal');
-        const passwordInput = document.getElementById('passwordInput');
-        const confirmPasswordBtn = document.getElementById('confirmPasswordBtn');
-        const cancelPasswordBtn = document.getElementById('cancelPasswordBtn');
-        const ADMIN_PASSWORD = "admin";
-        
-        // 存储日志
-        let logs = JSON.parse(localStorage.getItem('blessingLogs')) || [];
+<div class="toast" id="toast"></div>
 
-        // 渲染日志
-        function renderLogs() {
-            let html = '';
-            
-            // 渲染访问日志
-            if (logs.length > 0) {
-                html += '<div style="font-weight:bold; color:#cc0000; margin-bottom:10px;">访问日志：</div>';
-                logs.reverse().forEach(item => {
-                    html += `<div class="log-item">姓名：${item.name}<br>时间：${item.time}</div>`;
-                });
-            } else {
-                html = '<div class="log-item">暂无访问记录</div>';
-            }
-            
-            logContent.innerHTML = html;
-        }
+<audio id="bgm" loop><source src="./birthday.mp3" type="audio/mpeg">
 
-        function addLog(name) {
-            const now = new Date();
-            logs.push({ name, time: formatSolarTime(now) });
-            localStorage.setItem('blessingLogs', JSON.stringify(logs));
-            renderLogs();
-        }
+<script>
+const bgm = document.getElementById('bgm');
+const musicBtn = document.getElementById('musicBtn');
+const toast = document.getElementById('toast');
+const canvas = document.getElementById('fireworksCanvas');
+const ctx = canvas.getContext('2d');
+const teamModal = document.getElementById('teamModal');
+const surpriseModal = document.getElementById('surpriseModal');
+const cakeBox = document.getElementById('cakeBox');
+const flames = document.querySelectorAll('.candle-flame');
+const splashTimeEl = document.getElementById('splashTime');
+const mainTimeEl = document.getElementById('mainTime');
+const bottomTip = document.getElementById('bottomTip');
+const wishTip = document.getElementById('wishTip');
+const themeSelect = document.getElementById('themeSelect');
+const redpackModal = document.getElementById('redpackModal');
+const redpackTitle = document.getElementById('redpackTitle');
+const barrageEl = document.getElementById('barrage');
+const ageInfoModal = document.getElementById('ageInfoModal');
+const wishInputModal = document.getElementById('wishInputModal');
+const wishInput = document.getElementById('wishInput');
+const wishCakeModal = document.getElementById('wishCakeModal');
+const showWishText = document.getElementById('showWishText');
+const chatModal = document.getElementById('chatModal');
+const chatBody = document.getElementById('chatBody');
+const chatInput = document.getElementById('chatInput');
 
-        function clearAllData() {
-            logs = [];
-            localStorage.removeItem('blessingLogs');
-            renderLogs();
-        }
+let userName = '';
+let userAge = 0;
+let isDad = true;
+let wishIndex = 0;
 
-        horseIcon.addEventListener('click', () => {
-            logVisible = !logVisible;
-            logPanel.style.display = logVisible ? 'block' : 'none';
-            if (logVisible) {
-                renderLogs();
-            }
-        });
+const barrageTexts = ["生日快乐 🧧","福寿安康 🧧","万事顺遂 🧧","笑口常开 🧧","平安喜乐 🧧","吉祥如意 🧧","身体健康 🧧","心想事成 🧧"];
 
-        clearLogBtn.addEventListener('click', () => {
-            passwordInput.value = '';
-            passwordModal.style.display = 'flex';
-            setTimeout(() => {
-                passwordInput.focus();
-            }, 100);
-        });
+// 红包弹窗
+function showRedpackModal(){
+    closeSurpriseModal();
+    redpackTitle.innerText = `${userName}\n今天是您${userAge}岁生日`;
+    redpackModal.style.display = 'flex';
+}
+function openRedpack(){redpackModal.style.display='none';barrageEl.style.display='block';createBarrage();showTip("红包已开启，祝福红包来袭！");}
+function createBarrage(){barrageEl.innerHTML='';for(let i=0;i<10;i++){const item=document.createElement('div');item.className='barrage-item';item.innerText=barrageTexts[Math.floor(Math.random()*barrageTexts.length)];const top=Math.random()*80+5;const duration=Math.random()*6+8;const delay=Math.random()*5;item.style.top=top+'%';item.style.animationDuration=duration+'s';item.style.animationDelay=delay+'s';barrageEl.appendChild(item);}}
 
-        confirmPasswordBtn.addEventListener('click', () => {
-            const password = passwordInput.value.trim();
-            if (password === ADMIN_PASSWORD) {
-                clearAllData();
-                passwordModal.style.display = 'none';
-                alert('日志已全部清空！');
-            } else {
-                alert('❌ 密码错误！管理员密码为 admin，请重新输入！');
-                passwordInput.value = '';
-                passwordInput.focus();
-                passwordInput.style.borderColor = '#ff0000';
-                setTimeout(() => {
-                    passwordInput.style.borderColor = '#ff7f00';
-                }, 1000);
-            }
-        });
+// 祝福语
+// 5个不同核心方向的父母长辈祝福语（愿您开头）
+const wishList = [
+    // 方向1：健康长寿（核心：身体康健）
+    {cn:"愿您筋骨强健，步履轻盈，三餐有味，夜夜安枕，健康常伴左右。",en:"May you have strong bones, light steps, delicious meals, peaceful sleep every night, and health always by your side."},
+    // 方向2：清闲自在（核心：少劳多乐）
+    {cn:"愿您卸下辛劳，慢享日常，赏花听雨，喝茶闲谈，日子悠然自得。",en:"May you let go of toil, enjoy daily life slowly, appreciate flowers and listen to rain, drink tea and chat, living a carefree life."},
+    // 方向3：家人陪伴（核心：亲情温暖）
+    {cn:"愿您身边常有家人伴，闲话家常，共享三餐，岁岁年年皆有暖。",en:"May you always have family by your side, chat about daily life, share meals together, and be surrounded by warmth every year."},
+    // 方向4：万事顺遂（核心：无烦无忧）
+    {cn:"愿您所求皆如愿，所行皆坦途，少些纷扰，多些顺遂，生活无烦忧。",en:"May all your wishes come true, your path be smooth, less trouble, more success, and life be free from worries."},
+    // 方向5：喜乐常伴（核心：心情愉悦）
+    {cn:"愿您笑口常开，心无忧虑，眼里有光，心中有暖，日日皆有小欢喜。",en:"May you always smile, have no worries in your heart, light in your eyes, warmth in your heart, and small joys every day."}
+];
 
-        cancelPasswordBtn.addEventListener('click', () => {
-            passwordModal.style.display = 'none';
-        });
+// 团队弹窗
+function showTeamModal(){teamModal.style.display='flex';}
+function closeTeamModal(){teamModal.style.display='none';}
 
-        passwordModal.addEventListener('click', (e) => {
-            if (e.target === passwordModal) {
-                passwordModal.style.display = 'none';
-            }
-        });
+// 惊喜弹窗
+function openSurpriseModal(){surpriseModal.style.display='flex';}
+function closeSurpriseModal(){surpriseModal.style.display='none';}
 
-        // 烟花效果 - 优化颜色适配浅色背景，增加喜庆感
-        class Fireworks {
-            constructor(canvas) {
-                this.canvas = canvas;
-                this.ctx = canvas.getContext('2d');
-                this.particles = [];
-                this.resize();
-                window.addEventListener('resize', () => this.resize());
-            }
+// ①点亮蜡烛
+function chooseCandleSequence(){
+    closeSurpriseModal();
+    ageInfoModal.innerText = `${userName} 今天是您${userAge}岁生日`;
+    ageInfoModal.style.display = 'block';
+    setTimeout(()=>{ageInfoModal.style.display='none';},3000);
+    flames.forEach(f=>f.classList.add('show'));
+    cakeBox.classList.add('show');
+    setTimeout(()=>{
+        flames.forEach(f=>f.classList.remove('show'));
+        cakeBox.classList.remove('show');
+        wishTip.style.display='none';
+        showFireworks();
+    },6000);
+}
 
-            resize() {
-                this.canvas.width = window.innerWidth;
-                this.canvas.height = window.innerHeight;
-            }
+// ②切换祝福语
+function chooseChangeWish(){
+    closeSurpriseModal();
+    wishIndex=(wishIndex+1)%wishList.length;
+    document.getElementById('wishTxt').innerText=wishList[wishIndex].cn;
+    document.getElementById('wishEn').innerText=wishList[wishIndex].en;
+    showTip("祝福语已切换");
+}
 
-            createFirework(x, y) {
-                // 喜庆颜色搭配（适配浅色背景）
-                const colors = ['#ff5722', '#ff9800', '#ffc107', '#ffeb3b', '#f44336'];
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                const count = Math.floor(Math.random() * 50) + 100;
+// 主题切换
+function changeTheme(){
+    const v=themeSelect.value;
+    document.body.className=`theme${v} ${document.body.classList.contains('hide-splash')?'hide-splash':''}`;
+    showTip("主题已切换");
+}
 
-                for (let i = 0; i < count; i++) {
-                    const angle = Math.random() * Math.PI * 2;
-                    const speed = Math.random() * 5 + 2;
-                    const size = Math.random() * 3 + 1;
+// 音乐
+function toggleMusic(){
+    if(bgm.paused){bgm.play();musicBtn.innerText='🔊';showTip("背景音乐已开启");}
+    else{bgm.pause();musicBtn.innerText='🔇';showTip("背景音乐已关闭");}
+}
 
-                    this.particles.push({
-                        x, y,
-                        vx: Math.cos(angle) * speed,
-                        vy: Math.sin(angle) * speed,
-                        size,
-                        color,
-                        alpha: 1,
-                        decay: Math.random() * 0.01 + 0.005
-                    });
-                }
-            }
+// 提示
+function showTip(text){toast.innerText=text;toast.style.display='block';setTimeout(()=>toast.style.display='none',2000);}
 
-            update() {
-                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+// 时间更新
+function updateDateTime(){
+    const now=new Date();
+    const opt={timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'};
+    const timeStr=now.toLocaleString('zh-CN',opt).replace(/\//g,'-');
+    splashTimeEl.innerText="北京时间："+timeStr;
+    mainTimeEl.innerText="北京时间："+timeStr;
+}
+setInterval(updateDateTime,1000);
 
-                if (Math.random() < 0.05) {
-                    const x = Math.random() * this.canvas.width;
-                    const y = Math.random() * this.canvas.height * 0.8 + this.canvas.height * 0.1;
-                    this.createFirework(x, y);
-                }
+// 进入主页
+function enterMainPage(){
+    userName=document.getElementById('userName').value.trim()||'好友';
+    isDad=(userName==='胡红安');
+    const birthVal=document.getElementById('birthDay').value;
+    if(birthVal){
+        const d=new Date(birthVal);
+        const y=d.getFullYear();
+        const m=String(d.getMonth()+1).padStart(2,'0');
+        const day=String(d.getDate()).padStart(2,'0');
+        document.getElementById('birthBox').innerText=`🌹生辰：${y}年${m}月${day}日`;
+        userAge=new Date().getFullYear()-y;
+    }
+    document.getElementById('headTitle').innerHTML=isDad?'祝爸爸<br>生日快乐':`祝您<br>生日快乐`;
+    document.body.classList.add('hide-splash');
+    showTip("祝福主页已开启");
+}
 
-                for (let i = this.particles.length - 1; i >= 0; i--) {
-                    const p = this.particles[i];
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    p.vy += 0.05;
-                    p.alpha -= p.decay;
+// 返回开始界面
+function goToSplash(){
+    document.body.classList.remove('hide-splash');
+    barrageEl.style.display='none';
+    barrageEl.innerHTML='';
+    showTip("已返回开始界面");
+}
 
-                    if (p.alpha <= 0) {
-                        this.particles.splice(i, 1);
-                        continue;
-                    }
+// 烟花
+function showFireworks(){canvas.style.display='block';launchFireworks();setTimeout(()=>{canvas.style.display='none';},3500);}
+class Particle{constructor(x,y){this.x=x;this.y=y;this.vx=(Math.random()-0.5)*6;this.vy=(Math.random()-0.5)*6;this.alpha=1;this.color=`hsl(${Math.random()*360},70%,60%)`;}
+update(){this.x+=this.vx;this.y+=this.vy;this.alpha-=0.015;}
+draw(){ctx.save();ctx.globalAlpha=this.alpha;ctx.fillStyle=this.color;ctx.beginPath();ctx.arc(this.x,this.y,3,0,Math.PI*2);ctx.fill();ctx.restore();}}
+function launchFireworks(){
+    let ps=[];
+    for(let i=0;i<120;i++)ps.push(new Particle(window.innerWidth/2,window.innerHeight/2));
+    function ani(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        let alive=0;
+        ps.forEach(p=>{if(p.alpha>0){p.update();p.draw();alive++;}});
+        if(alive>0)requestAnimationFrame(ani);
+    }
+    ani();
+}
 
-                    this.ctx.beginPath();
-                    this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                    this.ctx.fillStyle = `${p.color}${Math.floor(p.alpha * 255).toString(16).padStart(2, '0')}`;
-                    this.ctx.fill();
-                }
-            }
+// 心愿功能
+function openWishInput(){wishInputModal.style.display='flex';wishInput.value='';}
+function closeWishInput(){wishInputModal.style.display='none';}
+function submitWish(){
+    const val=wishInput.value.trim();
+    if(!val){showTip("请输入您的心愿");return;}
+    closeWishInput();
+    showWishText.innerText=val;
+    wishCakeModal.style.display='flex';
+}
+function closeWishCake(){wishCakeModal.style.display='none';}
 
-            start() {
-                const animate = () => {
-                    this.update();
-                    requestAnimationFrame(animate);
-                };
-                animate();
-            }
-        }
+// AI智能客服问答（升级智能版）
+function getSmartAnswer(msg) {
+    const m = msg.trim().toLowerCase();
+    if (m.includes('你好') || m.includes('嗨') || m.includes('在吗')) return '你好呀😊 很高兴为你服务！';
+    if (m.includes('功能') || m.includes('能干什么') || m.includes('作用')) return '本网站可点亮蜡烛、切换祝福语、领红包、许下生日心愿，还能更换界面主题哦~';
+    if (m.includes('客服') || m.includes('帮助')) return '我就是AI智能客服，有问题直接问我就可以啦😉';
+    if (m.includes('心愿') || m.includes('蛋糕')) return '点击底部「许下心愿」，输入内容即可生成专属心愿蛋糕🍰';
+    if (m.includes('红包') || m.includes('领取')) return '点击「点击开启生日惊喜」，选择「领取红包」即可查看祝福虚拟红包~';
+    if (m.includes('年龄') || m.includes('几岁')) return '年龄会根据你输入的出生年月自动计算展示哦';
+    if (m.includes('主题') || m.includes('皮肤')) return '右上角下拉框可切换5种不同风格界面主题，随心更换~';
+    if (m.includes('音乐') || m.includes('声音')) return '左上角喇叭按钮可控制背景音乐的播放与暂停';
+    if (m.includes('联系') || m.includes('方式')) return '功能正在完善中，敬请期待';
+    if (m.includes('团队') || m.includes('创作者')) return '本网站由胡燚团队专业开发制作，点击底部版权可查看团队详情';
+    if (m.includes('谢谢') || m.includes('感谢')) return '不客气😊 能帮到你我很开心，祝你生日快乐！';
+    if (m.includes('生日快乐') || m.includes('生日')) return '也祝您生日快乐，平安喜乐，万事胜意🎂';
+    return '我是胡主人的AI客服，我已经收到你的消息啦，正在努力学习更多知识，你可以问问我网站功能、心愿、红包、主题等问题哦~';
+}
 
-        // 新年愿望走马灯功能
-        let wishText = '';
-        const wishModal = document.getElementById('wishModal');
-        const wishInput = document.getElementById('wishInput');
-        const wishBtnTrigger = document.getElementById('wishBtnTrigger');
-        const submitWishBtn = document.getElementById('submitWishBtn');
-        const cancelWishBtn = document.getElementById('cancelWishBtn');
-        const wishesContainer = document.getElementById('wishesContainer');
-        let wishItems = [];
-        let wishAnimationInterval;
+// AI聊天功能
+function openChat(){chatModal.style.display='flex';}
+function closeChat(){chatModal.style.display='none';}
+function sendChat(){
+    const val = chatInput.value.trim();
+    if (!val) return;
+    // 用户消息
+    const userDiv = document.createElement('div');
+    userDiv.className = 'chat-message chat-user';
+    userDiv.innerText = val;
+    chatBody.appendChild(userDiv);
+    chatInput.value = '';
+    chatBody.scrollTop = chatBody.scrollHeight;
+    // 智能回复
+    setTimeout(() => {
+        const botDiv = document.createElement('div');
+        botDiv.className = 'chat-message chat-bot';
+        botDiv.innerText = getSmartAnswer(val);
+        chatBody.appendChild(botDiv);
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }, 700);
+}
 
-        // 姓名记住功能 + 跳转核心功能 - 已修复
-        const nameInput = document.getElementById('nameInput');
-        const rememberCheckbox = document.getElementById('rememberCheckbox');
-        const confirmBtn = document.getElementById('confirmBtn');
-        const inputPage = document.getElementById('inputPage');
-        const blessingPageEle = document.getElementById('blessingPage');
-        const jumpTip = document.getElementById('jumpTip');
-        const centralTitle = document.getElementById('centralTitle');
-
-        // 页面元素
-        const solarTime = document.getElementById('solarTime');
-        const blessing4Word = document.getElementById('blessing4Word');
-        const backBtn = document.getElementById('backBtn');
-        const fireworksCanvas = document.getElementById('fireworksCanvas');
-
-        // 更新时间函数
-        function updateTime() {
-            const now = new Date();
-            solarTime.textContent = formatSolarTime(now);
-        }
-
-        // 祝福语切换函数
-        function startBlessingSwitch(initialIndex) {
-            let currentIndex = initialIndex;
-            setInterval(() => {
-                currentIndex = (currentIndex + 1) % blessings.length;
-                blessing4Word.style.opacity = 0;
-                setTimeout(() => {
-                    blessing4Word.textContent = blessings[currentIndex];
-                    blessing4Word.style.opacity = 1;
-                }, 200);
-            }, 5000);
-        }
-
-        // 愿望动画相关函数
-        function createWishAnimation() {
-            const wishCount = 80;
-            for (let i = 0; i < wishCount; i++) {
-                createWishItem();
-            }
-            wishAnimationInterval = setInterval(updateWishAnimation, 30);
-        }
-
-        function createWishItem() {
-            const wishItem = document.createElement('div');
-            wishItem.className = 'wish-item';
-            wishItem.textContent = wishText;
-            wishItem.style.left = `${Math.random() * 100}%`;
-            wishItem.style.top = `${Math.random() * 100}%`;
-            const fontSize = 1.5 + Math.random();
-            wishItem.style.fontSize = `${fontSize}rem`;
-            const opacity = 0.6 + Math.random() * 0.4;
-            wishItem.style.opacity = opacity;
-            wishItem.speed = {
-                x: (Math.random() - 0.5) * 2,
-                y: (Math.random() - 0.5) * 2
-            };
-            wishesContainer.appendChild(wishItem);
-            wishItems.push(wishItem);
-        }
-
-        function updateWishAnimation() {
-            wishItems.forEach(item => {
-                let x = parseFloat(item.style.left) + item.speed.x;
-                let y = parseFloat(item.style.top) + item.speed.y;
-
-                if (x < -200) x = 120;
-                if (x > 120) x = -200;
-                if (y < -100) y = 110;
-                if (y > 110) y = -100;
-
-                item.style.left = `${x}%`;
-                item.style.top = `${y}%`;
-            });
-        }
-
-        function clearWishAnimation() {
-            clearInterval(wishAnimationInterval);
-            wishItems.forEach(item => item.remove());
-            wishItems = [];
-        }
-
-        // 初始化
-        window.addEventListener('load', () => {
-            // 启动烟花
-            const fireworks = new Fireworks(fireworksCanvas);
-            fireworks.start();
-            
-            // 加载记住的姓名
-            const savedName = localStorage.getItem('savedUserName');
-            if (savedName) {
-                nameInput.value = savedName;
-                rememberCheckbox.checked = true;
-            }
-            
-            // 初始化日志
-            renderLogs();
-        });
-
-        // 愿望弹窗相关
-        wishBtnTrigger.addEventListener('click', () => {
-            wishInput.value = '';
-            wishModal.style.display = 'flex';
-            setTimeout(() => {
-                wishInput.focus();
-            }, 100);
-        });
-
-        cancelWishBtn.addEventListener('click', () => {
-            wishModal.style.display = 'none';
-        });
-
-        submitWishBtn.addEventListener('click', () => {
-            wishText = wishInput.value.trim();
-            if (!wishText) {
-                alert('请输入您的新年愿望！');
-                wishInput.focus();
-                return;
-            }
-
-            wishModal.style.display = 'none';
-            clearWishAnimation();
-            createWishAnimation();
-            alert(`您的愿望“${wishText}”已提交！愿望正在屏幕上飞舞～`);
-        });
-
-        wishInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                submitWishBtn.click();
-            }
-        });
-
-        // 点击弹窗外部关闭
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-        });
-
-        // 核心修复：姓名确认跳转功能
-        confirmBtn.addEventListener('click', function() {
-            const name = nameInput.value.trim();
-            if (!name) {
-                alert('请输入您的姓名！');
-                nameInput.focus();
-                return;
-            }
-
-            // 记住姓名功能
-            if (rememberCheckbox.checked) {
-                localStorage.setItem('savedUserName', name);
-            } else {
-                localStorage.removeItem('savedUserName');
-            }
-
-            // 添加日志
-            addLog(name);
-
-            // 显示跳转提示
-            jumpTip.style.display = 'block';
-
-            // 延迟跳转
-            setTimeout(function() {
-                jumpTip.style.display = 'none';
-                inputPage.style.display = 'none';
-                blessingPageEle.style.display = 'block';
-                centralTitle.textContent = `祝${name} 2026年丙午马年`;
-                
-                // 随机显示四字祝福语
-                const randomIndex = Math.floor(Math.random() * blessings.length);
-                blessing4Word.textContent = blessings[randomIndex];
-                startBlessingSwitch(randomIndex);
-                
-                // 更新时间
-                updateTime();
-                setInterval(updateTime, 1000);
-                
-                console.log('跳转成功！当前姓名：', name);
-            }, 1500);
-        });
-
-        // 返回按钮功能
-        backBtn.addEventListener('click', () => {
-            blessingPageEle.style.display = 'none';
-            inputPage.style.display = 'flex';
-            clearWishAnimation();
-        });
-    </script>
+window.onload=()=>{updateDateTime();bgm.play().catch(()=>{});setTimeout(()=>showFireworks(),500);};
+</script>
 </body>
 </html>
