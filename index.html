@@ -14,7 +14,7 @@
     
     <meta itemprop="name" content="祝您生日快乐">
     <meta itemprop="description" content="岁岁皆安康！">
-    <meta itemprop="image" content="https://huyi7527.github.io/xydy/dangao.png">
+    <meta itemprop:image" content="https://huyi7527.github.io/xydy/dangao.png">
       
 <style>
 * {margin:0;padding:0;box-sizing:border-box;font-family:"PingFang SC","Microsoft YaHei",sans-serif;-webkit-tap-highlight-color:transparent;}
@@ -144,7 +144,9 @@ body.hide-splash #splash{display:none;}
     font-size: 15px;
     font-weight: bold;
     cursor: pointer;
+    transition: 0.2s;
 }
+.theme-item:hover{transform: scale(1.03);}
 .theme-item.t1 {background: linear-gradient(90deg, #ff9a9e, #fad0c4);}
 .theme-item.t2 {background: linear-gradient(90deg, #a1c4fd, #c2e9fb);}
 .theme-item.t3 {background: linear-gradient(90deg, #84fab0, #8fd3f4);}
@@ -160,6 +162,45 @@ body.hide-splash #splash{display:none;}
     cursor: pointer;
 }
 
+/* 音乐盒弹窗 全新样式 */
+.music-box-modal{
+    position: fixed;top:0;left:0;width:100%;height:100%;
+    background:rgba(0,0,0,0.6);z-index:10006;
+    display:none;align-items:center;justify-content:center;
+}
+.music-box-inner{
+    background:#fff;width:85%;max-width:320px;
+    padding:24px;border-radius:20px;
+    text-align:center;box-shadow:0 5px 20px rgba(0,0,0,0.15);
+}
+.music-box-inner h3{
+    color:#ff5a7d;margin-bottom:20px;font-size:18px;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.music-list{
+    display:flex;flex-direction:column;gap:10px;max-height:300px;overflow-y:auto;
+}
+.music-item{
+    padding:12px 16px;border-radius:14px;
+    background:#f8f9fa;color:#333;
+    font-size:15px;font-weight:500;
+    cursor:pointer;transition:all 0.25s ease;
+    display:flex;align-items:center;justify-content:space-between;
+}
+.music-item:hover{background:#ffeef2;transform:translateY(-1px);}
+.music-item.active{
+    background:linear-gradient(90deg,#ff5a7d,#ff88aa);
+    color:#fff;box-shadow:0 3px 8px rgba(255,90,125,0.25);
+}
+.music-item .icon{font-size:16px;}
+.music-close-btn{
+    margin-top:18px;padding:9px 26px;
+    background:#ff5a7d;color:#fff;
+    border:none;border-radius:22px;
+    cursor:pointer;font-size:15px;
+}
+
+/* 音乐按钮 */
 .music-toggle{
     position:fixed;top:70px;left:12px;
     width:36px;height:36px;
@@ -408,7 +449,16 @@ body.theme5{background:linear-gradient(135deg,#fcf0ff,#f5d4ff);}
     </div>
 </div>
 
-<button class="music-toggle" id="musicBtn" onclick="toggleMusic()">🔊</button>
+<!-- 音乐盒弹窗 -->
+<div class="music-box-modal" id="musicBoxModal">
+    <div class="music-box-inner">
+        <h3>🎵 生日音乐盒</h3>
+        <div class="music-list" id="musicList"></div>
+        <button class="music-close-btn" onclick="closeMusicBox()">关闭</button>
+    </div>
+</div>
+
+<button class="music-toggle" id="musicBtn" onclick="openMusicBox()">🎵</button>
 
 <div class="bottom-tip" id="bottomTip"></div>
 <div class="wish-tip" id="wishTip">请许下您的生日愿望吧</div>
@@ -441,7 +491,7 @@ body.theme5{background:linear-gradient(135deg,#fcf0ff,#f5d4ff);}
         <button class="surprise-option" onclick="chooseCandleSequence()">点亮生日蜡烛</button>
         <button class="surprise-option" onclick="chooseChangeWish()">切换祝福语</button>
         <button class="surprise-option" onclick="showRedpackModal()">领取红包</button>
-        <button class="surprise-option close-btn" onclick="closeSurpriseModal()">关闭</button>
+        <button class="surprise-option.close-btn" onclick="closeSurpriseModal()">关闭</button>
     </div>
 </div>
 
@@ -542,7 +592,7 @@ body.theme5{background:linear-gradient(135deg,#fcf0ff,#f5d4ff);}
 
 <audio id="bgm" loop preload="auto">
     <source src="./birthday.mp3" type="audio/mpeg">
-
+</audio>
 
 <script>
 const bgm = document.getElementById('bgm');
@@ -570,6 +620,57 @@ const showWishText = document.getElementById('showWishText');
 const chatModal = document.getElementById('chatModal');
 const chatBody = document.getElementById('chatBody');
 const chatInput = document.getElementById('chatInput');
+
+// 音乐盒弹窗
+const musicBoxModal = document.getElementById('musicBoxModal');
+const musicList = document.getElementById('musicList');
+let currentMusicIndex = 0;
+
+// 本地音乐列表（可自行增删改）
+const musicData = [
+    {name: "生日快乐歌（默认）", url: "./birthday.mp3"},
+    {name: "蔡国庆-365个祝福", url: "./蔡国庆-365个祝福.mp3"},
+    {name: "马健涛-祝福", url: "./马健涛-祝福.mp3"},
+    {name: "杨钰莹-甜蜜蜜", url: "./杨钰莹-甜蜜蜜.mp3"},
+    {name: "筷子兄弟-父亲", url: "./筷子兄弟-父亲.mp3"},
+    {name: "祖海-好运来", url: "./祖海-好运来.mp3"},
+    {name: "冯晓泉-冰糖葫芦", url: "./冯晓泉-冰糖葫芦.mp3"}
+];
+
+// 渲染音乐列表
+function renderMusicList(){
+    musicList.innerHTML = '';
+    musicData.forEach((item, index)=>{
+        const div = document.createElement('div');
+        div.className = 'music-item';
+        if(index === currentMusicIndex) div.classList.add('active');
+        div.innerHTML = `
+            <span>${item.name}</span>
+            <span class="icon">${index === currentMusicIndex ? '🔊' : '🎵'}</span>
+        `;
+        div.onclick = ()=>switchMusic(index);
+        musicList.appendChild(div);
+    });
+}
+
+// 打开音乐盒
+function openMusicBox(){
+    renderMusicList();
+    musicBoxModal.style.display = 'flex';
+}
+// 关闭音乐盒
+function closeMusicBox(){
+    musicBoxModal.style.display = 'none';
+}
+
+// 切换音乐
+function switchMusic(index){
+    currentMusicIndex = index;
+    bgm.src = musicData[index].url;
+    bgm.play().catch(err=>{});
+    renderMusicList();
+    showTip(`已播放：${musicData[index].name}`);
+}
 
 const themeWheelModal = document.getElementById('themeWheelModal');
 function openThemeWheel() { themeWheelModal.style.display = 'flex'; }
@@ -663,18 +764,6 @@ function chooseChangeWish(){
     document.getElementById('wishTxt').innerText=wishList[wishIndex].cn;
     document.getElementById('wishEn').innerText=wishList[wishIndex].en;
     showTip("祝福语已切换");
-}
-
-function toggleMusic(){
-    if(bgm.paused){
-        bgm.play();
-        musicBtn.innerText='🔊';
-        showTip("背景音乐已开启");
-    }else{
-        bgm.pause();
-        musicBtn.innerText='🔇';
-        showTip("背景音乐已关闭");
-    }
 }
 
 function showTip(text){
@@ -831,11 +920,9 @@ window.onload = () => {
         playPromise.catch(() => {
             document.addEventListener('click', () => {
                 bgm.play();
-                musicBtn.innerText = '🔊';
             }, { once: true });
         });
     }
-    musicBtn.innerText = '🔊';
     setTimeout(() => showFireworks(), 500);
 };
 </script>
